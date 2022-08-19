@@ -2,7 +2,7 @@ name: Commit stage
 on: push
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: abandonedscope/catalog-service
+  IMAGE_NAME: abandonedscope/edge-service
   VERSION: latest
 
 jobs:
@@ -52,8 +52,8 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: read
-      security-events: write
       packages: write
+      security-events: write
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
