@@ -39,7 +39,7 @@ spring:
         response-timeout: 5s
       routes:
         - id: catalog-service
-          uri: ${CATALOG_SERVICE_URI:http://localhost:9001}/books
+          uri: ${CATALOG_SERVICE_URL:http://localhost:9001}/books
           predicates:
             - Path=/books/**
           filters:
@@ -48,15 +48,20 @@ spring:
                 name: catalogCircuitBreaker
                 fallbackUri: forward:/catalog-fallback
         - id: order-service
-          uri: ${ORDER_SERVICE_URI:http://localhost:9002}/orders
+          uri: ${ORDER_SERVICE_URL:http://localhost:9002}/orders
           predicates:
             - Path=/orders/**
           filters:
             - name: CircuitBreaker
               args:
                 name: orderCircuitBreaker
+        - id: spa-route
+          uri: ${SPA_URL:http://localhost:9004}
+          predicates:
+            - Path=/,/*.css,/*.js,/favicon.ico
       default-filters:
         - SaveSession
+        - TokenRelay
         - name: RequestRateLimiter
           args:
             redis-rate-limiter:
@@ -79,6 +84,17 @@ spring:
     port: 6379
     connect-timeout: 2s
     timeout: 1s
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: edge-service
+            client-secret: polar-keycloak-secret
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/PolarBookshop
 resilience4j:
   circuitbreaker:
     configs:
