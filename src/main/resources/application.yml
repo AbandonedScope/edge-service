@@ -4,6 +4,7 @@ server:
     connection-timeout: 2s
     idle-timeout: 15s
   shutdown: graceful
+
 spring:
   config:
     import: "optional:configserver:"
@@ -38,7 +39,7 @@ spring:
         connect-timeout: 2000
         response-timeout: 5s
       routes:
-        - id: catalog-service
+        - id: catalog-route
           uri: ${CATALOG_SERVICE_URL:http://localhost:9001}/books
           predicates:
             - Path=/books/**
@@ -47,7 +48,7 @@ spring:
               args:
                 name: catalogCircuitBreaker
                 fallbackUri: forward:/catalog-fallback
-        - id: order-service
+        - id: order-route
           uri: ${ORDER_SERVICE_URL:http://localhost:9002}/orders
           predicates:
             - Path=/orders/**
@@ -106,7 +107,7 @@ resilience4j:
   timelimiter:
     configs:
       default:
-        timeout-duration: 5
+        timeout-duration: 5s
 management:
   endpoints:
     web:
