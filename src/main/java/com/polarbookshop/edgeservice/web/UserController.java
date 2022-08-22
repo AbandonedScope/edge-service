@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @RestController
 public class UserController {
     @GetMapping("/user")
@@ -17,7 +15,7 @@ public class UserController {
                 oidcUser.getPreferredUsername(),
                 oidcUser.getGivenName(),
                 oidcUser.getFamilyName(),
-                List.of("customer", "employee")
+                oidcUser.getClaimAsStringList("roles")
         );
         return Mono.just(user);
     }
