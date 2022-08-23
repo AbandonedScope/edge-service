@@ -119,6 +119,9 @@ management:
       show-details: always
       probes:
         enabled: true
+      group:
+        readiness:
+          include: readinessState,redis
 logging:
   level:
     io.github.resilience4j: DEBUG
