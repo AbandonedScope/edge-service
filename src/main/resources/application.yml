@@ -112,7 +112,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health
+        include: refresh, health, prometheus
   endpoint:
     health:
       show-components: always
@@ -122,6 +122,11 @@ management:
       group:
         readiness:
           include: readinessState,redis
+  metrics:
+    tags:
+      application: ${spring.application.name}
 logging:
   level:
     io.github.resilience4j: DEBUG
+  pattern:
+    level: "%5d [${spring.application.name},%X{trace_id},%X{span_id}]"
