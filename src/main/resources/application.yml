@@ -87,6 +87,7 @@ spring:
     port: 6379
     connect-timeout: 2s
     timeout: 1s
+    ssl: true
   security:
     oauth2:
       client:
