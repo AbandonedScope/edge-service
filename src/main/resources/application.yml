@@ -21,6 +21,7 @@ spring:
   cloud:
     config:
       fail-fast: false
+      enabled: false
       uri: http://localhost:8888
       request-read-timeout: 5000
       request-connect-timeout: 5000
